@@ -25,7 +25,7 @@ export const ContentCard: React.FC<ContentCard> = ({
   imageUrl,
   creator
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const translationKeyMap: Record<string, string> = {
     story: 'stories',
@@ -43,17 +43,16 @@ export const ContentCard: React.FC<ContentCard> = ({
     ritual: 'bg-red-100 text-red-800 hover:bg-red-200'
   };
 
-  // Determinar o título e a descrição a serem exibidos
-  // Primeiro, tentar usar as chaves de tradução específicas para o conteúdo, se existirem
-  const translatedTitle = t(`content.${id}.title`, { defaultValue: propTitle });
-  const translatedDescription = t(`content.${id}.description`, { defaultValue: propDescription });
+  // Tentar usar traduções específicas para o conteúdo, se não existir, usar o título/descrição original
+  const translatedTitle = t(`content.${id}.title`, propTitle);
+  const translatedDescription = t(`content.${id}.description`, propDescription);
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
       <div className="aspect-video relative overflow-hidden">
         <img 
           src={imageUrl} 
-          alt={propTitle}
+          alt={translatedTitle}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
         <div className="absolute top-2 left-2">
