@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const API_URL = 'http://localhost:8000/api/conteudos';
 
 const ContentList: React.FC = () => {
   const [contents, setContents] = useState<any[]>([]);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // Buscar conteúdos da API ao carregar a página
   useEffect(() => {
@@ -33,18 +35,18 @@ const ContentList: React.FC = () => {
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">Conteúdos</h2>
-        <Link to="/conteudos/novo" className="bg-blue-500 text-white px-4 py-2 rounded">Novo Conteúdo</Link>
+        <h2 className="text-2xl font-bold">{t('content.title')}s</h2>
+        <Link to="/conteudos/novo" className="bg-blue-500 text-white px-4 py-2 rounded">{t('content.new_content')}</Link>
       </div>
       <table className="min-w-full bg-white">
         <thead>
           <tr>
             <th className="py-2 px-4 border">ID</th>
-            <th className="py-2 px-4 border">Título</th>
-            <th className="py-2 px-4 border">Tipo</th>
-            <th className="py-2 px-4 border">Etnia</th>
-            <th className="py-2 px-4 border">Região</th>
-            <th className="py-2 px-4 border">Ações</th>
+            <th className="py-2 px-4 border">{t('content.title')}</th>
+            <th className="py-2 px-4 border">{t('content.type')}</th>
+            <th className="py-2 px-4 border">{t('content.ethnicity')}</th>
+            <th className="py-2 px-4 border">{t('content.region')}</th>
+            <th className="py-2 px-4 border">{t('content.actions')}</th>
           </tr>
         </thead>
         <tbody>
@@ -56,8 +58,8 @@ const ContentList: React.FC = () => {
               <td className="py-2 px-4 border">{content.ethnicity}</td>
               <td className="py-2 px-4 border">{content.region}</td>
               <td className="py-2 px-4 border">
-                <button className="text-blue-500 mr-2" onClick={() => navigate(`/conteudos/${content.id}/editar`)}>Editar</button>
-                <button className="text-red-500" onClick={() => handleDelete(content.id)}>Excluir</button>
+                <button className="text-blue-500 mr-2" onClick={() => navigate(`/conteudos/${content.id}/editar`)}>{t('content.edit')}</button>
+                <button className="text-red-500" onClick={() => handleDelete(content.id)}>{t('content.delete')}</button>
               </td>
             </tr>
           ))}

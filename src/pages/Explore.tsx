@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { ExploreHeader } from '@/components/ExploreHeader';
 import { ContentGrid } from '@/components/ContentGrid';
-import { useLanguage } from '@/hooks/useLanguage';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { ContentItem } from '@/lib/types';
 
 const API_URL = 'http://localhost:8000/api/conteudos';
 
 export const Explore: React.FC = () => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
   const [allContent, setAllContent] = useState<ContentItem[]>([]);

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -7,10 +6,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useLanguage } from '@/hooks/useLanguage';
+import { useTranslation } from 'react-i18next';
 
 export const LanguageSelector: React.FC = () => {
-  const { language, setLanguage } = useLanguage();
+  const { i18n } = useTranslation();
 
   const languages = [
     { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -18,7 +17,7 @@ export const LanguageSelector: React.FC = () => {
     { code: 'es', name: 'Español', flag: '🇪🇸' },
   ];
 
-  const currentLanguage = languages.find(lang => lang.code === language);
+  const currentLanguage = languages.find(lang => lang.code === i18n.language);
 
   return (
     <DropdownMenu>
@@ -32,7 +31,7 @@ export const LanguageSelector: React.FC = () => {
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
-            onClick={() => setLanguage(lang.code as any)}
+            onClick={() => i18n.changeLanguage(lang.code)}
             className="flex items-center space-x-2"
           >
             <span>{lang.flag}</span>

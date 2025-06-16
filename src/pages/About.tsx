@@ -1,10 +1,10 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { useLanguage } from '@/hooks/useLanguage';
-import imgAbout from '@/assets/img-about.jpg';
+import { useTranslation } from 'react-i18next';
+import imgAbout from '/assets/img-about.jpg';
 
 export const About: React.FC = () => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-background">

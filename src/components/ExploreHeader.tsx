@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Search, Filter } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -9,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useLanguage } from '@/hooks/useLanguage';
+import { useTranslation } from 'react-i18next';
 
 interface FilterOption {
   key: string;
@@ -32,7 +31,7 @@ export const ExploreHeader: React.FC<ExploreHeaderProps> = ({
   setSelectedFilter,
   filters
 }) => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   return (
     <section className="bg-muted/30 cultural-pattern py-12">

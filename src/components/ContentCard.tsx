@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { useLanguage } from '@/hooks/useLanguage';
+import { useTranslation } from 'react-i18next';
 
-interface ContentCardProps {
+interface ContentCard {
   id: string;
   title: string;
   description: string;
@@ -16,17 +15,25 @@ interface ContentCardProps {
   creator?: string;
 }
 
-export const ContentCard: React.FC<ContentCardProps> = ({
+export const ContentCard: React.FC<ContentCard> = ({
   id,
-  title,
-  description,
+  title: propTitle,
+  description: propDescription,
   type,
   ethnicity,
   region,
   imageUrl,
   creator
 }) => {
-  const { t } = useLanguage();
+  const { t, i18n } = useTranslation();
+
+  const translationKeyMap: Record<string, string> = {
+    story: 'stories',
+    craft: 'crafts',
+    music: 'music',
+    language: 'language',
+    ritual: 'rituals',
+  };
 
   const typeColors = {
     story: 'bg-blue-100 text-blue-800 hover:bg-blue-200',
@@ -36,24 +43,29 @@ export const ContentCard: React.FC<ContentCardProps> = ({
     ritual: 'bg-red-100 text-red-800 hover:bg-red-200'
   };
 
+  // Determinar o título e a descrição a serem exibidos
+  // Primeiro, tentar usar as chaves de tradução específicas para o conteúdo, se existirem
+  const translatedTitle = t(`content.${id}.title`, { defaultValue: propTitle });
+  const translatedDescription = t(`content.${id}.description`, { defaultValue: propDescription });
+
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
       <div className="aspect-video relative overflow-hidden">
         <img 
           src={imageUrl} 
-          alt={title}
+          alt={propTitle}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
         <div className="absolute top-2 left-2">
           <Badge className={typeColors[type]}>
-            {t(`explore.filter.${type === 'story' ? 'stories' : type}`)}
+            {t(`explore.filter.${translationKeyMap[type] || type}`)}
           </Badge>
         </div>
       </div>
       
       <CardContent className="p-4">
-        <h3 className="font-semibold text-lg mb-2 line-clamp-2">{title}</h3>
-        <p className="text-muted-foreground text-sm mb-3 line-clamp-3">{description}</p>
+        <h3 className="font-semibold text-lg mb-2 line-clamp-2">{translatedTitle}</h3>
+        <p className="text-muted-foreground text-sm mb-3 line-clamp-3">{translatedDescription}</p>
         
         <div className="flex flex-wrap gap-2 mb-2">
           <Badge variant="outline" className="text-xs">

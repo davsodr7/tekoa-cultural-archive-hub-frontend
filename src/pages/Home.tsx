@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useLanguage } from '@/hooks/useLanguage';
-import historiaLendasImg from '@/assets/foto_fogueira_gr.jpg';
-import artesanatoTradicionalImg from '@/assets/artesanato-indígena-brasileiro.jpg';
-import musicaDancaImg from '@/assets/danca-ritual-indigena-Brasil.jpeg';
+import { useTranslation } from 'react-i18next';
+import historiaLendasImg from '/assets/foto_fogueira_gr.jpg';
+import artesanatoTradicionalImg from '/assets/artesanato-indígena-brasileiro.jpg';
+import musicaDancaImg from '/assets/danca-ritual-indigena-Brasil.jpeg';
 
 export const Home: React.FC = () => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   const features = [
     {

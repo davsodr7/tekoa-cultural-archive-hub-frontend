@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { useLanguage } from '@/hooks/useLanguage';
+import { useTranslation } from 'react-i18next';
 
 export const About: React.FC = () => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-background">
@@ -45,7 +45,7 @@ export const About: React.FC = () => {
               </div>
               <div className="aspect-square">
                 <img
-                  src="/src/assets/img-about.jpg"
+                  src="/assets/img-about.jpg"
                   alt="Comunidade indígena brasileira"
                   className="w-full h-full object-cover rounded-lg shadow-lg"
                 />
@@ -112,14 +112,14 @@ export const About: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
               <div className="relative aspect-video">
                 <img
-                  src="/src/assets/danca-ritual-indigena-Brasil.jpeg"
+                  src="/assets/danca-ritual-indigena-Brasil.jpeg"
                   alt="Dança ritual indígena"
                   className="w-full h-full object-cover rounded-lg shadow-lg"
                 />
               </div>
               <div className="relative aspect-video">
                 <img
-                  src="/src/assets/artesanato-indígena-brasileiro.jpg"
+                  src="/assets/artesanato-indígena-brasileiro.jpg"
                   alt="Artesanato indígena brasileiro"
                   className="w-full h-full object-cover rounded-lg shadow-lg"
                 />
@@ -137,7 +137,7 @@ export const About: React.FC = () => {
               </p>
               <div className="relative aspect-video max-w-3xl mx-auto">
                 <img
-                  src="/src/assets/foto_fogueira_gr.jpg"
+                  src="/assets/foto_fogueira_gr.jpg"
                   alt="Comunidade indígena em celebração"
                   className="w-full h-full object-cover rounded-lg shadow-lg"
                 />

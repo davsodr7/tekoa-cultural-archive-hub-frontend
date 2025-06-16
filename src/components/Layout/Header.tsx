@@ -1,13 +1,12 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, Search, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useLanguage } from '@/hooks/useLanguage';
+import { useTranslation } from 'react-i18next';
 import { LanguageSelector } from './LanguageSelector';
 
 export const Header: React.FC = () => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
@@ -24,27 +23,24 @@ export const Header: React.FC = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link 
-              to="/" 
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive('/') ? 'text-primary' : 'text-muted-foreground'
-              }`}
+            <Link
+              to="/"
+              className={`text-sm font-medium transition-colors hover:text-primary ${isActive('/') ? 'text-primary' : 'text-muted-foreground'
+                }`}
             >
               {t('nav.home')}
             </Link>
-            <Link 
-              to="/explore" 
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive('/explore') ? 'text-primary' : 'text-muted-foreground'
-              }`}
+            <Link
+              to="/explore"
+              className={`text-sm font-medium transition-colors hover:text-primary ${isActive('/explore') ? 'text-primary' : 'text-muted-foreground'
+                }`}
             >
               {t('nav.explore')}
             </Link>
-            <Link 
-              to="/about" 
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive('/about') ? 'text-primary' : 'text-muted-foreground'
-              }`}
+            <Link
+              to="/about"
+              className={`text-sm font-medium transition-colors hover:text-primary ${isActive('/about') ? 'text-primary' : 'text-muted-foreground'
+                }`}
             >
               {t('nav.about')}
             </Link>
@@ -62,7 +58,7 @@ export const Header: React.FC = () => {
             <Button size="sm" asChild>
               <Link to="/register">{t('nav.register')}</Link>
             </Button>
-            
+
             {/* Mobile Menu Button */}
             <Button variant="ghost" size="sm" className="md:hidden">
               <Menu className="h-4 w-4" />

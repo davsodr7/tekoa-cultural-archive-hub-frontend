@@ -9,22 +9,25 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import axios from 'axios';
-
-const contentSchema = z.object({
-  title: z.string().min(1, "Título é obrigatório"),
-  description: z.string().min(1, "Descrição é obrigatória"),
-  type: z.enum(['story', 'craft', 'music', 'language', 'ritual'], { message: "Tipo inválido" }),
-  ethnicity: z.string().min(1, "Etnia é obrigatória"),
-  region: z.string().min(1, "Região é obrigatória"),
-  imageUrl: z.string().url("URL da imagem inválida").min(1, "URL da imagem é obrigatória"),
-  creator: z.string().optional(),
-});
-
-type ContentFormValues = z.infer<typeof contentSchema>;
-
-const API_URL = 'http://localhost:8000/api/conteudos';
+import { useTranslation } from 'react-i18next';
 
 const ContentForm: React.FC = () => {
+  const { t } = useTranslation();
+
+  const contentSchema = z.object({
+    title: z.string().min(1, t('content.title_required')),
+    description: z.string().min(1, t('content.description_required')),
+    type: z.enum(['story', 'craft', 'music', 'language', 'ritual'], { message: t('content.invalid_type') }),
+    ethnicity: z.string().min(1, t('content.ethnicity_required')),
+    region: z.string().min(1, t('content.region_required')),
+    imageUrl: z.string().url(t('content.invalid_image_url')).min(1, t('content.image_url_required')),
+    creator: z.string().optional(),
+  });
+
+  type ContentFormValues = z.infer<typeof contentSchema>;
+
+  const API_URL = 'http://localhost:8000/api/conteudos';
+
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditMode = !!id;
@@ -59,54 +62,54 @@ const ContentForm: React.FC = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <h2 className="text-2xl font-bold mb-4">{isEditMode ? 'Editar Conteúdo' : 'Novo Conteúdo'}</h2>
+      <h2 className="text-2xl font-bold mb-4">{isEditMode ? t('content.edit_content') : t('content.new_content_form')}</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <Label htmlFor="title">Título</Label>
+          <Label htmlFor="title">{t('content.title')}</Label>
           <Input id="title" {...register('title')} />
           {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
         </div>
         <div>
-          <Label htmlFor="description">Descrição</Label>
+          <Label htmlFor="description">{t('content.description')}</Label>
           <Textarea id="description" {...register('description')} />
           {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
         </div>
         <div>
-          <Label htmlFor="type">Tipo</Label>
+          <Label htmlFor="type">{t('content.type')}</Label>
           <Select onValueChange={(value) => setValue('type', value as any)} defaultValue={isEditMode ? '' : undefined}>
             <SelectTrigger>
-              <SelectValue placeholder="Selecione o tipo" />
+              <SelectValue placeholder={t('content.select_type')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="story">História</SelectItem>
-              <SelectItem value="craft">Artesanato</SelectItem>
-              <SelectItem value="music">Música</SelectItem>
-              <SelectItem value="language">Linguagem</SelectItem>
-              <SelectItem value="ritual">Ritual</SelectItem>
+              <SelectItem value="story">{t('content.story')}</SelectItem>
+              <SelectItem value="craft">{t('content.craft')}</SelectItem>
+              <SelectItem value="music">{t('content.music')}</SelectItem>
+              <SelectItem value="language">{t('content.language')}</SelectItem>
+              <SelectItem value="ritual">{t('content.ritual')}</SelectItem>
             </SelectContent>
           </Select>
           {errors.type && <p className="text-red-500 text-sm">{errors.type.message}</p>}
         </div>
         <div>
-          <Label htmlFor="ethnicity">Etnia</Label>
+          <Label htmlFor="ethnicity">{t('content.ethnicity')}</Label>
           <Input id="ethnicity" {...register('ethnicity')} />
           {errors.ethnicity && <p className="text-red-500 text-sm">{errors.ethnicity.message}</p>}
         </div>
         <div>
-          <Label htmlFor="region">Região</Label>
+          <Label htmlFor="region">{t('content.region')}</Label>
           <Input id="region" {...register('region')} />
           {errors.region && <p className="text-red-500 text-sm">{errors.region.message}</p>}
         </div>
         <div>
-          <Label htmlFor="imageUrl">URL da Imagem</Label>
+          <Label htmlFor="imageUrl">{t('content.image_url')}</Label>
           <Input id="imageUrl" {...register('imageUrl')} />
           {errors.imageUrl && <p className="text-red-500 text-sm">{errors.imageUrl.message}</p>}
         </div>
         <div>
-          <Label htmlFor="creator">Criador (Opcional)</Label>
+          <Label htmlFor="creator">{t('content.creator_optional')}</Label>
           <Input id="creator" {...register('creator')} />
         </div>
-        <Button type="submit">{isEditMode ? 'Salvar Alterações' : 'Criar Conteúdo'}</Button>
+        <Button type="submit">{isEditMode ? t('content.save_changes') : t('content.create_content')}</Button>
       </form>
     </div>
   );
