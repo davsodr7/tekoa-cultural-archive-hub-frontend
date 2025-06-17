@@ -13,6 +13,7 @@ interface ContentCard {
   region: string;
   imageUrl: string;
   creator?: string;
+  translationSlug?: string;
 }
 
 export const ContentCard: React.FC<ContentCard> = ({
@@ -23,7 +24,8 @@ export const ContentCard: React.FC<ContentCard> = ({
   ethnicity,
   region,
   imageUrl,
-  creator
+  creator,
+  translationSlug
 }) => {
   const { t, i18n } = useTranslation();
 
@@ -45,8 +47,13 @@ export const ContentCard: React.FC<ContentCard> = ({
 
   // Determinar o título e a descrição a serem exibidos
   // Primeiro, tentar usar as chaves de tradução específicas para o conteúdo, se existirem
-  const translatedTitle = t(`content.${id}.title`, { defaultValue: propTitle });
-  const translatedDescription = t(`content.${id}.description`, { defaultValue: propDescription });
+  const translatedTitle = t(`content.${translationSlug || id}.title`, { defaultValue: propTitle });
+  const translatedDescription = t(`content.${translationSlug || id}.description`, { defaultValue: propDescription });
+
+  // Temporariamente para depuração:
+  console.log('ContentCard - ID:', id, 'translationSlug:', translationSlug);
+  console.log('ContentCard - Translated Title:', translatedTitle, 'Original Title:', propTitle);
+  console.log('ContentCard - Translated Description:', translatedDescription, 'Original Description:', propDescription);
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">

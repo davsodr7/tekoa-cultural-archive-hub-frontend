@@ -15,13 +15,30 @@ export const Explore: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Mapeamento dos títulos da API para os slugs de tradução
+  const contentSlugMap: Record<string, string> = {
+    "Uirapuru: O Pássaro Místico": "uirapuru",
+    "Arte Marajoara: Cerâmica da Ilha": "marajoara",
+    "Toré dos Fulni-ô: Dança Sagrada": "tore",
+    "Mandioca: Raiz da Vida Indígena": "mandioca",
+    "Trançado Yanomami: Arte da Floresta": "trancado",
+    "Pintura Corporal Kadiwéu: A Arte de Ser": "pintura",
+    "Ritual do Quarup: A Celebração da Vida e Morte": "quarup",
+    "Língua Guarani: Herança Viva": "guarani",
+  };
+
   useEffect(() => {
     const fetchContent = async () => {
       setLoading(true);
       setError(null);
       try {
         const response = await axios.get<ContentItem[]>(API_URL);
-        setAllContent(response.data);
+        // Adicionar o translationSlug a cada item de conteúdo
+        const contentsWithSlugs = response.data.map(item => ({
+          ...item,
+          translationSlug: contentSlugMap[item.title] || item.title.toLowerCase().replace(/[^a-z0-9]+/g, '').replace(/(^\s*)|(\s*$)/g, '') // Fallback para slug simples
+        }));
+        setAllContent(contentsWithSlugs);
       } catch (err) {
         console.error("Erro ao buscar conteúdos:", err);
         setError("Não foi possível carregar os conteúdos. Tente novamente mais tarde.");

@@ -7,4 +7,5 @@ export interface ContentItem {
   region: string;
   imageUrl: string;
   creator?: string;
-} 
+  translationSlug?: string;
+}

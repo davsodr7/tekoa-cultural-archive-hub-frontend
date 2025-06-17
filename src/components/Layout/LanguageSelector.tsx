@@ -9,12 +9,12 @@ import {
 import { useTranslation } from 'react-i18next';
 
 export const LanguageSelector: React.FC = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const languages = [
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'pt', name: 'Português', flag: '🇧🇷' },
-    { code: 'es', name: 'Español', flag: '🇪🇸' },
+    { code: 'en', nameKey: 'language.en', flag: '🇺🇸' },
+    { code: 'pt', nameKey: 'language.pt', flag: '🇧🇷' },
+    { code: 'es', nameKey: 'language.es', flag: '🇪🇸' },
   ];
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language);
@@ -24,7 +24,7 @@ export const LanguageSelector: React.FC = () => {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="flex items-center space-x-1">
           <span>{currentLanguage?.flag}</span>
-          <span className="hidden sm:inline">{currentLanguage?.name}</span>
+          <span className="hidden sm:inline">{t(currentLanguage?.nameKey || '')}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
@@ -35,7 +35,7 @@ export const LanguageSelector: React.FC = () => {
             className="flex items-center space-x-2"
           >
             <span>{lang.flag}</span>
-            <span>{lang.name}</span>
+            <span>{t(lang.nameKey)}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
