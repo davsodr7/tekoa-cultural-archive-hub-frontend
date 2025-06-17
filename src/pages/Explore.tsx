@@ -2,10 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { ExploreHeader } from '@/components/ExploreHeader';
 import { ContentGrid } from '@/components/ContentGrid';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
 import { ContentItem } from '@/lib/types';
-
-const API_URL = 'http://localhost:8000/api/conteudos';
+import { mockContent } from '@/data/mockContent';
 
 export const Explore: React.FC = () => {
   const { t } = useTranslation();
@@ -13,7 +11,6 @@ export const Explore: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
   const [allContent, setAllContent] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   // Mapeamento dos títulos da API para os slugs de tradução
   const contentSlugMap: Record<string, string> = {
@@ -28,8 +25,10 @@ export const Explore: React.FC = () => {
   };
 
   useEffect(() => {
-    const fetchContent = async () => {
+    // Simular carregamento de dados
+    const loadContent = async () => {
       setLoading(true);
+<<<<<<< HEAD
       setError(null);
       try {
         const response = await axios.get<ContentItem[]>(API_URL);
@@ -46,9 +45,15 @@ export const Explore: React.FC = () => {
       } finally {
         setLoading(false);
       }
+=======
+      // Simular delay de API
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setAllContent(mockContent);
+      setLoading(false);
+>>>>>>> 8d3a4bc3d556e766f427e247f798ef8867a9aed9
     };
 
-    fetchContent();
+    loadContent();
   }, []);
 
   const filters = [
@@ -73,22 +78,26 @@ export const Explore: React.FC = () => {
 
     // Filter by search term
     if (searchTerm) {
-      filtered = filtered.filter(item =>
-        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.ethnicity.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      filtered = filtered.filter(item => {
+        const { t } = useTranslation();
+        const translatedTitle = t(`content.${item.id}.title`, item.title);
+        const translatedDescription = t(`content.${item.id}.description`, item.description);
+        
+        return translatedTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+               translatedDescription.toLowerCase().includes(searchTerm.toLowerCase()) ||
+               item.ethnicity.toLowerCase().includes(searchTerm.toLowerCase());
+      });
     }
 
     return filtered;
   }, [searchTerm, selectedFilter, filters, allContent]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center text-xl text-primary">Carregando conteúdos...</div>;
-  }
-
-  if (error) {
-    return <div className="min-h-screen flex items-center justify-center text-xl text-red-500">{error}</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center text-xl text-primary">
+        Carregando conteúdos...
+      </div>
+    );
   }
 
   return (
