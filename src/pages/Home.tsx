@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
 export const Home: React.FC = () => {
   const { t } = useTranslation();
@@ -10,12 +11,8 @@ export const Home: React.FC = () => {
   const [erro, setErro] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/conteudos')
-      .then(res => {
-        if (!res.ok) throw new Error();
-        return res.json();
-      })
-      .then(data => setFeatures(data))
+    axios.get('http://localhost:8080/api/conteudos')
+      .then(res => setFeatures(res.data))
       .catch(() => setErro(true));
   }, []);
 

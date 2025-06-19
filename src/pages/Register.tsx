@@ -8,8 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useTranslation } from 'react-i18next';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import type { UserRegisterDTO, UserDTO } from '@/lib/types';
+import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api/usuarios/register';
+const API_URL = 'http://localhost:8080/api/usuarios/register';
 
 export const Register: React.FC = () => {
   const { t } = useTranslation();
@@ -29,32 +30,25 @@ export const Register: React.FC = () => {
     setError('');
 
     try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        const user: any = await response.json();
-        localStorage.setItem('user', JSON.stringify(user));
-        // Redirecionar conforme o tipo de perfil
-        if (user.profileType === 'indigenous') {
-          navigate('/publicar');
-        } else if (user.profileType === 'educator') {
-          navigate('/materiais-exclusivos');
-        } else {
-          navigate('/explore');
-        }
-      } else if (response.status === 400) {
-        setError(t('register.validation_error'));
+      const response = await axios.post(API_URL, formData);
+      const user = response.data;
+      localStorage.setItem('user', JSON.stringify(user));
+      // Redirecionar conforme o tipo de perfil
+      if (user.profileType === 'indigenous') {
+        navigate('/publicar');
+      } else if (user.profileType === 'educator') {
+        navigate('/materiais-exclusivos');
       } else {
-        setError(t('register.server_error'));
+        navigate('/explore');
       }
-    } catch (err) {
-      setError(t('register.network_error'));
+    } catch (err: any) {
+      if (err.response && err.response.status === 400) {
+        setError(t('register.validation_error'));
+      } else if (err.response) {
+        setError(t('register.server_error'));
+      } else {
+        setError(t('register.network_error'));
+      }
     } finally {
       setLoading(false);
     }

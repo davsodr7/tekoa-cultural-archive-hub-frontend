@@ -7,8 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import type { UserLoginDTO, UserDTO } from '@/lib/types';
+import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api/usuarios/login';
+const API_URL = 'http://localhost:8080/api/usuarios/login';
 
 export const Login: React.FC = () => {
   const { t } = useTranslation();
@@ -26,33 +27,24 @@ export const Login: React.FC = () => {
     setError('');
 
     try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData as UserLoginDTO),
-      });
-
-      if (response.ok) {
-        const user: any = await response.json();
-        // Salvar dados do usuário no localStorage
-        localStorage.setItem('user', JSON.stringify(user));
-        // Redirecionar conforme o tipo de perfil
-        if (user.profileType === 'indigenous') {
-          navigate('/publicar'); // exemplo: rota para publicar conteúdo
-        } else if (user.profileType === 'educator') {
-          navigate('/materiais-exclusivos'); // exemplo: rota para materiais exclusivos
-        } else {
-          navigate('/explore'); // público geral
-        }
-      } else if (response.status === 401) {
-        setError(t('login.invalid_credentials'));
+      const response = await axios.post(API_URL, formData);
+      const user = response.data;
+      localStorage.setItem('user', JSON.stringify(user));
+      if (user.profileType === 'indigenous') {
+        navigate('/publicar');
+      } else if (user.profileType === 'educator') {
+        navigate('/materiais-exclusivos');
       } else {
-        setError(t('login.server_error'));
+        navigate('/explore');
       }
-    } catch (err) {
-      setError(t('login.network_error'));
+    } catch (err: any) {
+      if (err.response && err.response.status === 401) {
+        setError(t('login.invalid_credentials'));
+      } else if (err.response) {
+        setError(t('login.server_error'));
+      } else {
+        setError(t('login.network_error'));
+      }
     } finally {
       setLoading(false);
     }

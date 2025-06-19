@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
 export const About: React.FC = () => {
   const { t } = useTranslation();
@@ -8,14 +9,9 @@ export const About: React.FC = () => {
   const [erro, setErro] = useState(false);
 
   useEffect(() => {
-    // Exemplo: buscar um conteúdo específico do backend para About
-    fetch('http://localhost:8080/api/conteudos')
+    axios.get('http://localhost:8080/api/conteudos')
       .then(res => {
-        if (!res.ok) throw new Error();
-        return res.json();
-      })
-      .then(data => {
-        // Supondo que o primeiro conteúdo seja o da página About
+        const data = res.data;
         if (data && data.length > 0 && data[0].imageUrl) {
           setAboutImg(data[0].imageUrl);
         } else {
