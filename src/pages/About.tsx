@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
-import imgAbout from '/assets/img-about.jpg';
 
 export const About: React.FC = () => {
   const { t } = useTranslation();
+  const [aboutImg, setAboutImg] = useState<string | null>(null);
+  const [erro, setErro] = useState(false);
+
+  useEffect(() => {
+    // Exemplo: buscar um conteúdo específico do backend para About
+    fetch('http://localhost:8080/api/conteudos')
+      .then(res => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then(data => {
+        // Supondo que o primeiro conteúdo seja o da página About
+        if (data && data.length > 0 && data[0].imageUrl) {
+          setAboutImg(data[0].imageUrl);
+        } else {
+          setAboutImg(null);
+        }
+      })
+      .catch(() => setErro(true));
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -40,11 +59,17 @@ export const About: React.FC = () => {
                 </p>
               </div>
               <div className="aspect-square">
-                <img
-                  src={imgAbout}
-                  alt="Comunidade indígena brasileira"
-                  className="w-full h-full object-cover rounded-lg"
-                />
+                {erro ? (
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">Imagem indisponível</div>
+                ) : aboutImg ? (
+                  <img
+                    src={aboutImg}
+                    alt="Comunidade indígena brasileira"
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">Sem imagem</div>
+                )}
               </div>
             </div>
 

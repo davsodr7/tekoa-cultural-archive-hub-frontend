@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
-const API_URL = 'http://localhost:8000/api/conteudos';
+const API_URL = 'http://localhost:8080/api/conteudos';
 
 const ContentList: React.FC = () => {
   const [contents, setContents] = useState<any[]>([]);

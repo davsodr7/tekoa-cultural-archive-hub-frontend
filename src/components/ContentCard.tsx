@@ -45,21 +45,8 @@ export const ContentCard: React.FC<ContentCard> = ({
     ritual: 'bg-red-100 text-red-800 hover:bg-red-200'
   };
 
-<<<<<<< HEAD
-  // Determinar o título e a descrição a serem exibidos
-  // Primeiro, tentar usar as chaves de tradução específicas para o conteúdo, se existirem
   const translatedTitle = t(`content.${translationSlug || id}.title`, { defaultValue: propTitle });
   const translatedDescription = t(`content.${translationSlug || id}.description`, { defaultValue: propDescription });
-
-  // Temporariamente para depuração:
-  console.log('ContentCard - ID:', id, 'translationSlug:', translationSlug);
-  console.log('ContentCard - Translated Title:', translatedTitle, 'Original Title:', propTitle);
-  console.log('ContentCard - Translated Description:', translatedDescription, 'Original Description:', propDescription);
-=======
-  // Tentar usar traduções específicas para o conteúdo, se não existir, usar o título/descrição original
-  const translatedTitle = t(`content.${id}.title`, propTitle);
-  const translatedDescription = t(`content.${id}.description`, propDescription);
->>>>>>> 8d3a4bc3d556e766f427e247f798ef8867a9aed9
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">

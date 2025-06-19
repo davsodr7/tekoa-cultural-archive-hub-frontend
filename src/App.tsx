@@ -13,6 +13,8 @@ import { Login } from "@/pages/Login";
 import { Register } from "@/pages/Register";
 import { About } from "@/pages/About";
 import NotFound from "./pages/NotFound";
+import Publicar from './pages/Publicar';
+import MateriaisExclusivos from './pages/MateriaisExclusivos';
 
 const queryClient = new QueryClient();
 
@@ -32,6 +34,8 @@ const App = () => (
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/publicar" element={<Publicar />} />
+                <Route path="/materiais-exclusivos" element={<MateriaisExclusivos />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

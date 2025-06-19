@@ -26,7 +26,7 @@ const ContentForm: React.FC = () => {
 
   type ContentFormValues = z.infer<typeof contentSchema>;
 
-  const API_URL = 'http://localhost:8000/api/conteudos';
+  const API_URL = 'http://localhost:8080/api/conteudos';
 
   const navigate = useNavigate();
   const { id } = useParams();

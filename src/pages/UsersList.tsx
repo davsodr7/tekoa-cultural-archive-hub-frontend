@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api/usuarios';
+const API_URL = 'http://localhost:8080/api/usuarios';
 
 const UsersList: React.FC = () => {
   const [users, setUsers] = useState<any[]>([]);

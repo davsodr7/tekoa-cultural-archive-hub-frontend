@@ -1,25 +1,63 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTranslation } from 'react-i18next';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import type { UserRegisterDTO, UserDTO } from '@/lib/types';
+
+const API_URL = 'http://localhost:8000/api/usuarios/register';
 
 export const Register: React.FC = () => {
   const { t } = useTranslation();
-  const [formData, setFormData] = useState({
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState<UserRegisterDTO>({
     name: '',
     email: '',
     password: '',
-    profileType: ''
+    profileType: undefined
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Registration attempt:', formData);
-    // TODO: Implement actual registration logic
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const user: any = await response.json();
+        localStorage.setItem('user', JSON.stringify(user));
+        // Redirecionar conforme o tipo de perfil
+        if (user.profileType === 'indigenous') {
+          navigate('/publicar');
+        } else if (user.profileType === 'educator') {
+          navigate('/materiais-exclusivos');
+        } else {
+          navigate('/explore');
+        }
+      } else if (response.status === 400) {
+        setError(t('register.validation_error'));
+      } else {
+        setError(t('register.server_error'));
+      }
+    } catch (err) {
+      setError(t('register.network_error'));
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +67,7 @@ export const Register: React.FC = () => {
     }));
   };
 
-  const handleSelectChange = (value: string) => {
+  const handleSelectChange = (value: 'indigenous' | 'educator' | 'general') => {
     setFormData(prev => ({
       ...prev,
       profileType: value
@@ -45,13 +83,22 @@ export const Register: React.FC = () => {
               <div className="h-12 w-12 rounded-full cultural-gradient"></div>
             </div>
             <CardTitle className="text-2xl font-bold text-primary">
-              {t('register.title')}
+              Crie sua conta para participar da comunidade
             </CardTitle>
+            <p className="mt-2 text-muted-foreground text-sm">
+              Escolha seu perfil: indígena (compartilhe histórias, arte e cultura), educador (acesse materiais exclusivos) ou público geral (descubra e apoie a cultura indígena).
+            </p>
           </CardHeader>
           <CardContent>
+            {error && (
+              <Alert variant="destructive" className="mb-4">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+            
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name">{t('register.name')}</Label>
+                <Label htmlFor="name">Nome completo</Label>
                 <Input
                   id="name"
                   name="name"
@@ -59,11 +106,12 @@ export const Register: React.FC = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
+                  disabled={loading}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">{t('register.email')}</Label>
+                <Label htmlFor="email">E-mail</Label>
                 <Input
                   id="email"
                   name="email"
@@ -71,11 +119,12 @@ export const Register: React.FC = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  disabled={loading}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="password">{t('register.password')}</Label>
+                <Label htmlFor="password">Senha</Label>
                 <Input
                   id="password"
                   name="password"
@@ -83,39 +132,40 @@ export const Register: React.FC = () => {
                   value={formData.password}
                   onChange={handleChange}
                   required
+                  disabled={loading}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label>{t('register.profile_type')}</Label>
-                <Select onValueChange={handleSelectChange} required>
+                <Label>Tipo de perfil</Label>
+                <Select onValueChange={handleSelectChange} required disabled={loading} value={formData.profileType}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select your profile type" />
+                    <SelectValue placeholder="Selecione seu perfil" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="indigenous">
-                      {t('register.profile.indigenous')}
+                      Indígena (quero compartilhar histórias, arte e cultura)
                     </SelectItem>
                     <SelectItem value="educator">
-                      {t('register.profile.educator')}
+                      Educador (quero acessar materiais exclusivos)
                     </SelectItem>
                     <SelectItem value="general">
-                      {t('register.profile.general')}
+                      Público geral (quero conhecer e apoiar a cultura indígena)
                     </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
-              <Button type="submit" className="w-full">
-                {t('register.submit')}
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? 'Criando conta...' : 'Criar conta'}
               </Button>
             </form>
 
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
-                {t('register.have_account')}{' '}
+                Já tem uma conta?{' '}
                 <Link to="/login" className="text-primary hover:underline">
-                  {t('register.login_link')}
+                  Entrar
                 </Link>
               </p>
             </div>

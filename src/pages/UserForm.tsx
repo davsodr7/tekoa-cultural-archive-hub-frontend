@@ -16,7 +16,7 @@ const userSchema = z.object({
 
 type UserFormValues = z.infer<typeof userSchema>;
 
-const API_URL = 'http://localhost:8000/api/usuarios'; // Ajustado para porta 8000
+const API_URL = 'http://localhost:8080/api/usuarios'; // Ajustado para porta 8080
 
 const UserForm: React.FC = () => {
   const navigate = useNavigate();

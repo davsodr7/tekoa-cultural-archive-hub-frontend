@@ -9,3 +9,16 @@ export interface ContentItem {
   creator?: string;
   translationSlug?: string;
 }
+
+export interface UserDTO {
+  id: number;
+  name: string;
+  email: string;
+}
+
+export interface UserRegisterDTO {
+  name: string;
+  email: string;
+  password: string;
+  profileType?: 'indigenous' | 'educator' | 'general';
+}

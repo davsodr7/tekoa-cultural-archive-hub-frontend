@@ -1,22 +1,61 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import type { UserLoginDTO, UserDTO } from '@/lib/types';
+
+const API_URL = 'http://localhost:8000/api/usuarios/login';
 
 export const Login: React.FC = () => {
   const { t } = useTranslation();
-  const [formData, setFormData] = useState({
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState<UserLoginDTO>({
     email: '',
     password: ''
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login attempt:', formData);
-    // TODO: Implement actual login logic
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData as UserLoginDTO),
+      });
+
+      if (response.ok) {
+        const user: any = await response.json();
+        // Salvar dados do usuário no localStorage
+        localStorage.setItem('user', JSON.stringify(user));
+        // Redirecionar conforme o tipo de perfil
+        if (user.profileType === 'indigenous') {
+          navigate('/publicar'); // exemplo: rota para publicar conteúdo
+        } else if (user.profileType === 'educator') {
+          navigate('/materiais-exclusivos'); // exemplo: rota para materiais exclusivos
+        } else {
+          navigate('/explore'); // público geral
+        }
+      } else if (response.status === 401) {
+        setError(t('login.invalid_credentials'));
+      } else {
+        setError(t('login.server_error'));
+      }
+    } catch (err) {
+      setError(t('login.network_error'));
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +78,12 @@ export const Login: React.FC = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
+            {error && (
+              <Alert variant="destructive" className="mb-4">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+            
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">{t('login.email')}</Label>
@@ -49,6 +94,7 @@ export const Login: React.FC = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  disabled={loading}
                 />
               </div>
               
@@ -61,11 +107,12 @@ export const Login: React.FC = () => {
                   value={formData.password}
                   onChange={handleChange}
                   required
+                  disabled={loading}
                 />
               </div>
 
-              <Button type="submit" className="w-full">
-                {t('login.submit')}
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? t('login.loading') : t('login.submit')}
               </Button>
             </form>
 

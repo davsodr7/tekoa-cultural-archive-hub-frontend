@@ -1,32 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
-import historiaLendasImg from '/assets/foto_fogueira_gr.jpg';
-import artesanatoTradicionalImg from '/assets/artesanato-indígena-brasileiro.jpg';
-import musicaDancaImg from '/assets/danca-ritual-indigena-Brasil.jpeg';
 
 export const Home: React.FC = () => {
   const { t } = useTranslation();
+  const [features, setFeatures] = useState<any[]>([]);
+  const [erro, setErro] = useState(false);
 
-  const features = [
-    {
-      title: t('explore.filter.stories'),
-      description: t('home.feature.stories'),
-      image: historiaLendasImg
-    },
-    {
-      title: t('explore.filter.crafts'),
-      description: t('home.feature.crafts'),
-      image: artesanatoTradicionalImg
-    },
-    {
-      title: t('explore.filter.music'),
-      description: t('home.feature.music'),
-      image: musicaDancaImg
-    }
-  ];
+  useEffect(() => {
+    fetch('http://localhost:8080/api/conteudos')
+      .then(res => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then(data => setFeatures(data))
+      .catch(() => setErro(true));
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -70,25 +61,33 @@ export const Home: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <Card key={index} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
-                <div className="aspect-video relative overflow-hidden">
-                  <img
-                    src={feature.image}
-                    alt={feature.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-3 text-primary">
-                    {feature.title}
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {feature.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+            {erro ? (
+              <div className="col-span-3 text-center text-red-500">Imagens indisponíveis no momento.</div>
+            ) : (
+              features.map((feature, index) => (
+                <Card key={index} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
+                  <div className="aspect-video relative overflow-hidden">
+                    {feature.imageUrl ? (
+                      <img
+                        src={feature.imageUrl}
+                        alt={feature.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">Sem imagem</div>
+                    )}
+                  </div>
+                  <CardContent className="p-6">
+                    <h3 className="text-xl font-semibold mb-3 text-primary">
+                      {feature.title || 'Sem título'}
+                    </h3>
+                    <p className="text-muted-foreground">
+                      {feature.description || 'Sem descrição'}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </div>
         </div>
       </section>
