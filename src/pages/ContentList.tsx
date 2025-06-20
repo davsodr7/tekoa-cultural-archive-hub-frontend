@@ -3,7 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
+<<<<<<< HEAD
 const API_URL = 'http://localhost:8080/api/conteudos';
+=======
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/conteudos`;
+>>>>>>> recupera-alteracoes
 
 const ContentList: React.FC = () => {
   const [contents, setContents] = useState<any[]>([]);

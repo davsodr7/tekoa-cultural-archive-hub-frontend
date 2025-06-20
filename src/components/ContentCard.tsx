@@ -45,14 +45,25 @@ export const ContentCard: React.FC<ContentCard> = ({
     ritual: 'bg-red-100 text-red-800 hover:bg-red-200'
   };
 
+<<<<<<< HEAD
   const translatedTitle = t(`content.${translationSlug || id}.title`, { defaultValue: propTitle });
   const translatedDescription = t(`content.${translationSlug || id}.description`, { defaultValue: propDescription });
+=======
+  const translatedTitle = t(`content.${id}.title`, { defaultValue: propTitle });
+  const translatedDescription = t(`content.${id}.description`, { defaultValue: propDescription });
+>>>>>>> recupera-alteracoes
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
       <div className="aspect-video relative overflow-hidden">
         <img 
+<<<<<<< HEAD
           src={`${import.meta.env.VITE_BACKEND_URL}/assets/${imageUrl}`} 
+=======
+          src={imageUrl.startsWith('/assets/')
+            ? `${import.meta.env.VITE_BACKEND_URL}${imageUrl}`
+            : `${import.meta.env.VITE_BACKEND_URL}/assets/${imageUrl}`}
+>>>>>>> recupera-alteracoes
           alt={translatedTitle}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />

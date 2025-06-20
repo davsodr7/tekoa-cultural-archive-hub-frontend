@@ -3,12 +3,16 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
+<<<<<<< HEAD
 
+=======
+>>>>>>> recupera-alteracoes
 export const Home: React.FC = () => {
   const { t } = useTranslation();
   const [features, setFeatures] = useState<any[]>([]);
   const [erro, setErro] = useState(false);
 
+<<<<<<< HEAD
   useEffect(() => {
     fetch('http://localhost:8080/api/conteudos')
       .then(res => {
@@ -18,6 +22,25 @@ export const Home: React.FC = () => {
       .then(data => setFeatures(data))
       .catch(() => setErro(true));
   }, []);
+=======
+  const features = [
+    {
+      title: t('explore.filter.stories'),
+      description: t('home.feature.stories'),
+      image: `${import.meta.env.VITE_BACKEND_URL}/assets/foto_fogueira_gr.jpg`
+    },
+    {
+      title: t('explore.filter.crafts'),
+      description: t('home.feature.crafts'),
+      image: `${import.meta.env.VITE_BACKEND_URL}/assets/artesanato-indígena-brasileiro.jpg`
+    },
+    {
+      title: t('explore.filter.music'),
+      description: t('home.feature.music'),
+      image: `${import.meta.env.VITE_BACKEND_URL}/assets/danca-ritual-indigena-Brasil.jpeg`
+    }
+  ];
+>>>>>>> recupera-alteracoes
 
   return (
     <div className="min-h-screen">

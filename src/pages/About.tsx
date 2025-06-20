@@ -59,6 +59,7 @@ export const About: React.FC = () => {
                 </p>
               </div>
               <div className="aspect-square">
+<<<<<<< HEAD
                 {erro ? (
                   <div className="w-full h-full bg-gray-200 flex items-center justify-center">Imagem indisponível</div>
                 ) : aboutImg ? (
@@ -70,6 +71,13 @@ export const About: React.FC = () => {
                 ) : (
                   <div className="w-full h-full bg-gray-200 flex items-center justify-center">Sem imagem</div>
                 )}
+=======
+                <img
+                  src={`${import.meta.env.VITE_BACKEND_URL}/assets/img-about.jpg`}
+                  alt="Comunidade indígena brasileira"
+                  className="w-full h-full object-cover rounded-lg shadow-lg"
+                />
+>>>>>>> recupera-alteracoes
               </div>
             </div>
 

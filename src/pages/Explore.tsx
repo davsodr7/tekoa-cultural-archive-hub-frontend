@@ -5,7 +5,11 @@ import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { ContentItem } from '@/lib/types';
 
+<<<<<<< HEAD
 const API_URL = 'http://localhost:8080/api/conteudos';
+=======
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/conteudos`;
+>>>>>>> recupera-alteracoes
 
 export const Explore: React.FC = () => {
   const { t } = useTranslation();
@@ -88,10 +92,6 @@ export const Explore: React.FC = () => {
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center text-xl text-primary">Carregando conteúdos...</div>;
-  }
-
-  if (error) {
-    return <div className="min-h-screen flex items-center justify-center text-xl text-red-500">{error}</div>;
   }
 
   return (
