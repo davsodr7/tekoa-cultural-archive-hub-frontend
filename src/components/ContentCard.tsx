@@ -52,7 +52,7 @@ export const ContentCard: React.FC<ContentCard> = ({
     <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
       <div className="aspect-video relative overflow-hidden">
         <img 
-          src={imageUrl} 
+          src={`${import.meta.env.VITE_BACKEND_URL}/assets/${imageUrl}`} 
           alt={translatedTitle}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />

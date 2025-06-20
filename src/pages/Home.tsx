@@ -69,7 +69,7 @@ export const Home: React.FC = () => {
                   <div className="aspect-video relative overflow-hidden">
                     {feature.imageUrl ? (
                       <img
-                        src={feature.imageUrl}
+                        src={`${import.meta.env.VITE_BACKEND_URL}/assets/${feature.imageUrl}`}
                         alt={feature.title}
                         className="w-full h-full object-cover"
                       />
