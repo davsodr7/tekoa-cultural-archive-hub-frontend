@@ -43,8 +43,6 @@ export const ContentCard: React.FC<ContentCard> = ({
     ritual: 'bg-red-100 text-red-800 hover:bg-red-200'
   };
 
-  // Determinar o título e a descrição a serem exibidos
-  // Primeiro, tentar usar as chaves de tradução específicas para o conteúdo, se existirem
   const translatedTitle = t(`content.${id}.title`, { defaultValue: propTitle });
   const translatedDescription = t(`content.${id}.description`, { defaultValue: propDescription });
 
@@ -52,8 +50,10 @@ export const ContentCard: React.FC<ContentCard> = ({
     <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
       <div className="aspect-video relative overflow-hidden">
         <img 
-          src={imageUrl} 
-          alt={propTitle}
+          src={imageUrl.startsWith('/assets/')
+            ? `${import.meta.env.VITE_BACKEND_URL}${imageUrl}`
+            : `${import.meta.env.VITE_BACKEND_URL}/assets/${imageUrl}`}
+          alt={translatedTitle}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
         <div className="absolute top-2 left-2">

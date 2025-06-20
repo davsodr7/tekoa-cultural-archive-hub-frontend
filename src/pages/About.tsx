@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
-import imgAbout from '/assets/img-about.jpg';
 
 export const About: React.FC = () => {
   const { t } = useTranslation();
@@ -41,9 +40,9 @@ export const About: React.FC = () => {
               </div>
               <div className="aspect-square">
                 <img
-                  src={imgAbout}
+                  src={`${import.meta.env.VITE_BACKEND_URL}/assets/img-about.jpg`}
                   alt="Comunidade indígena brasileira"
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-full object-cover rounded-lg shadow-lg"
                 />
               </div>
             </div>

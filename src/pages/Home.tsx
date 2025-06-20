@@ -3,10 +3,6 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
-import historiaLendasImg from '/assets/foto_fogueira_gr.jpg';
-import artesanatoTradicionalImg from '/assets/artesanato-indígena-brasileiro.jpg';
-import musicaDancaImg from '/assets/danca-ritual-indigena-Brasil.jpeg';
-
 export const Home: React.FC = () => {
   const { t } = useTranslation();
 
@@ -14,17 +10,17 @@ export const Home: React.FC = () => {
     {
       title: t('explore.filter.stories'),
       description: t('home.feature.stories'),
-      image: historiaLendasImg
+      image: `${import.meta.env.VITE_BACKEND_URL}/assets/foto_fogueira_gr.jpg`
     },
     {
       title: t('explore.filter.crafts'),
       description: t('home.feature.crafts'),
-      image: artesanatoTradicionalImg
+      image: `${import.meta.env.VITE_BACKEND_URL}/assets/artesanato-indígena-brasileiro.jpg`
     },
     {
       title: t('explore.filter.music'),
       description: t('home.feature.music'),
-      image: musicaDancaImg
+      image: `${import.meta.env.VITE_BACKEND_URL}/assets/danca-ritual-indigena-Brasil.jpeg`
     }
   ];
 
