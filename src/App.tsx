@@ -9,12 +9,12 @@ import { Header } from "@/components/Layout/Header";
 import { Footer } from "@/components/Layout/Footer";
 import { Home } from "@/pages/Home";
 import { Explore } from "@/pages/Explore";
-import { Login } from "@/pages/Login";
-import { Register } from "@/pages/Register";
 import { About } from "@/pages/About";
 import NotFound from "./pages/NotFound";
 import Publicar from './pages/Publicar';
-import MateriaisExclusivos from './pages/MateriaisExclusivos';
+import ContentDetail from './pages/ContentDetail';
+import ContentList from './pages/ContentList';
+import ContentForm from './pages/ContentForm';
 
 const queryClient = new QueryClient();
 
@@ -31,11 +31,15 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/explore" element={<Explore />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/publicar" element={<Publicar />} />
-                <Route path="/materiais-exclusivos" element={<MateriaisExclusivos />} />
+                <Route path="/content/:id" element={<ContentDetail />} />
+                
+                {/* Rotas de Administração */}
+                <Route path="/admin/conteudos" element={<ContentList />} />
+                <Route path="/admin/conteudos/novo" element={<ContentForm />} />
+                <Route path="/admin/conteudos/:id/editar" element={<ContentForm />} />
+                
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

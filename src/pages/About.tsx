@@ -1,29 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import React from 'react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
+import ImageWithFallback from '@/components/ImageWithFallback';
 
 export const About: React.FC = () => {
   const { t } = useTranslation();
-  const [aboutImg, setAboutImg] = useState<string | null>(null);
-  const [erro, setErro] = useState(false);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const aboutImgUrl = `${backendUrl}/assets/img-about.jpg`;
 
-  useEffect(() => {
-    // Exemplo: buscar um conteúdo específico do backend para About
-    fetch('http://localhost:8080/api/conteudos')
-      .then(res => {
-        if (!res.ok) throw new Error();
-        return res.json();
-      })
-      .then(data => {
-        // Supondo que o primeiro conteúdo seja o da página About
-        if (data && data.length > 0 && data[0].imageUrl) {
-          setAboutImg(data[0].imageUrl);
-        } else {
-          setAboutImg(null);
-        }
-      })
-      .catch(() => setErro(true));
-  }, []);
+  const values = [
+    {
+      title: "Respeito",
+      description: "Abordamos todo conteúdo cultural com profundo respeito e reverência, honrando as tradições sagradas e conhecimentos dos povos indígenas brasileiros."
+    },
+    {
+      title: "Preservação",
+      description: "Nossa plataforma serve como um repositório digital para o patrimônio cultural, garantindo que tradições e conhecimentos sejam preservados para as futuras gerações."
+    },
+    {
+      title: "Educação",
+      description: "Promovemos o entendimento intercultural através da educação, fomentando o diálogo e valorização entre diferentes comunidades."
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -58,60 +56,32 @@ export const About: React.FC = () => {
                   {t('about.mission.3')}
                 </p>
               </div>
-              <div className="aspect-square">
-<<<<<<< HEAD
-                {erro ? (
-                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">Imagem indisponível</div>
-                ) : aboutImg ? (
-                  <img
-                    src={aboutImg}
-                    alt="Comunidade indígena brasileira"
-                    className="w-full h-full object-cover rounded-lg"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">Sem imagem</div>
-                )}
-=======
-                <img
-                  src={`${import.meta.env.VITE_BACKEND_URL}/assets/img-about.jpg`}
-                  alt="Comunidade indígena brasileira"
-                  className="w-full h-full object-cover rounded-lg shadow-lg"
-                />
->>>>>>> recupera-alteracoes
-              </div>
+              <Card className="overflow-hidden aspect-square">
+                <CardContent className="p-0 h-full">
+                  <div className="aspect-square">
+                    <ImageWithFallback
+                      src={aboutImgUrl}
+                      fallbackSrc="/placeholder.svg"
+                      alt="Comunidade indígena brasileira"
+                      className="w-full h-full object-cover rounded-lg shadow-lg"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
             {/* Values */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-4 text-primary">Respeito</h3>
-                  <p className="text-muted-foreground">
-                    Abordamos todo conteúdo cultural com profundo respeito e reverência,
-                    honrando as tradições sagradas e conhecimentos dos povos indígenas brasileiros.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-4 text-primary">Preservação</h3>
-                  <p className="text-muted-foreground">
-                    Nossa plataforma serve como um repositório digital para o patrimônio cultural,
-                    garantindo que tradições e conhecimentos sejam preservados para as futuras gerações.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-4 text-primary">Educação</h3>
-                  <p className="text-muted-foreground">
-                    Promovemos o entendimento intercultural através da educação,
-                    fomentando o diálogo e valorização entre diferentes comunidades.
-                  </p>
-                </CardContent>
-              </Card>
+              {values.map((value, index) => (
+                <Card key={index}>
+                  <CardContent className="p-6">
+                    <h3 className="text-xl font-semibold mb-4 text-primary">{value.title}</h3>
+                    <p className="text-muted-foreground">
+                      {value.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
 
             {/* Brazilian Context */}

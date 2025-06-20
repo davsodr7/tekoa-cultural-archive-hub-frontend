@@ -29,9 +29,6 @@ const resources = {
       'explore.filter.language': 'Languages',
       'explore.filter.rituals': 'Ceremonies & Rituals',
       'explore.subtitle': 'Discover stories, traditions, and wisdom of Brazilian indigenous peoples',
-      'explore.results_count': 'Showing {{count}} result(s)',
-      'explore.no_content_found': 'No content found for the search criteria.',
-      'explore.clear_filters_button': 'Clear Filters',
       'login.title': 'Welcome Back',
       'login.email': 'Email',
       'login.password': 'Password',
@@ -109,7 +106,22 @@ const resources = {
       'content.quarup.title': 'Quarup Ritual: The Celebration of Life and Death',
       'content.quarup.description': 'The Quarup is a ritual honoring celebrated dead, practiced by the peoples of Alto Xingu, in Mato Grosso. It is a great celebration involving dances, songs, fights, and gift exchanges, reaffirming community bonds and the cycle of life.',
       'content.guarani.title': 'Guarani Language: Living Heritage',
-      'content.guarani.description': 'The Guarani language is spoken by millions of people in South America, being official in Paraguay. For the Guarani, the language is the ultimate expression of their culture and identity, transmitting ancestral knowledge and worldviews.'
+      'content.guarani.description': 'The Guarani language is spoken by millions of people in South America, being official in Paraguay. For the Guarani, the language is the ultimate expression of their culture and identity, transmitting ancestral knowledge and worldviews.',
+      'explore.sort.createdAt': 'Created At',
+      'explore.sort.updatedAt': 'Updated At',
+      'explore.sort.most_recent': 'Most recent',
+      'explore.sort.oldest': 'Oldest',
+      'explore.sort.recently_updated': 'Recently Updated',
+      'explore.sort.least_updated': 'Least Updated',
+      'explore.date_filter.label': 'Date Range',
+      'explore.date_filter.from': 'From',
+      'explore.date_filter.to': 'To',
+      'explore.date_filter.by': 'Filter by',
+      'explore.loading': 'Loading content...',
+      'content.created_at': 'Created at',
+      'content.updated_at': 'Updated at',
+      'content.back_to_explore': 'Back to Explore',
+      'content.not_found': 'Content not found.',
     }
   },
   pt: {
@@ -131,15 +143,12 @@ const resources = {
       'explore.title': 'Explorar Patrimônio Indígena Brasileiro',
       'explore.search_placeholder': 'Buscar histórias, artesanato, línguas...',
       'explore.filter.all': 'Todo Conteúdo',
-      'explore.filter.stories': 'Histórias e Lendas',
+      'explore.filter.stories': 'Histórias',
       'explore.filter.crafts': 'Artesanato Tradicional',
       'explore.filter.music': 'Música e Dança',
       'explore.filter.language': 'Línguas',
       'explore.filter.rituals': 'Cerimônias e Rituais',
       'explore.subtitle': 'Descubra histórias, tradições e sabedorias dos povos indígenas brasileiros',
-      'explore.results_count': 'Mostrando {{count}} resultado(s)',
-      'explore.no_content_found': 'Nenhum conteúdo encontrado com os critérios de busca.',
-      'explore.clear_filters_button': 'Limpar Filtros',
       'login.title': 'Bem-vindo de Volta',
       'login.email': 'Email',
       'login.password': 'Senha',
@@ -219,7 +228,18 @@ const resources = {
       'content.quarup.title': 'Ritual do Quarup: A Celebração da Vida e Morte',
       'content.quarup.description': 'O Quarup é um ritual de homenagem aos mortos célebres, praticado pelos povos do Alto Xingu, no Mato Grosso. É uma grande celebração que envolve danças, cantos, lutas e a troca de presentes, reafirmando os laços comunitários e o ciclo da vida.',
       'content.guarani.title': 'Língua Guarani: Herança Viva',
-      'content.guarani.description': 'A língua Guarani é falada por milhões de pessoas na América do Sul, sendo oficial no Paraguai. Para os Guarani, a língua é a expressão máxima de sua cultura e identidade, transmitindo conhecimentos ancestrais e cosmovisões.'
+      'content.guarani.description': 'A língua Guarani é falada por milhões de pessoas na América do Sul, sendo oficial no Paraguai. Para os Guarani, a língua é a expressão máxima de sua cultura e identidade, transmitindo conhecimentos ancestrais e cosmovisões.',
+      'explore.sort.createdAt': 'Criado em',
+      'explore.sort.updatedAt': 'Atualizado em',
+      'explore.sort.most_recent': 'Mais recentes',
+      'explore.sort.oldest': 'Mais antigos',
+      'explore.sort.recently_updated': 'Atualizados recentemente',
+      'explore.sort.least_updated': 'Menos atualizados',
+      'explore.date_filter.label': 'Intervalo de datas',
+      'explore.date_filter.from': 'De',
+      'explore.date_filter.to': 'Até',
+      'explore.date_filter.by': 'Filtrar por',
+      'explore.sort.publishedAt': 'Ordenar por'
     }
   },
   es: {
@@ -247,9 +267,6 @@ const resources = {
       'explore.filter.language': 'Lenguas',
       'explore.filter.rituals': 'Ceremonias y Rituales',
       'explore.subtitle': 'Descubre historias, tradiciones y sabidurías de los pueblos indígenas brasileños',
-      'explore.results_count': 'Mostrando {{count}} resultado(s)',
-      'explore.no_content_found': 'No se encontró contenido con los criterios de búsqueda.',
-      'explore.clear_filters_button': 'Borrar Filtros',
       'login.title': 'Bienvenido de Nuevo',
       'login.email': 'Correo Electrónico',
       'login.password': 'Contraseña',
@@ -318,10 +335,10 @@ const resources = {
       'content.uirapuru.description': 'El uirapuru es un ave legendaria de la Amazonía, conocida por su canto melodioso que, según la creencia indígena, trae felicidad y buena suerte. Existen muchas leyendas sobre el origen y el poder de este pájaro mágico.',
       'content.marajoara.title': 'Arte Marajoara: Cerámica de la Isla',
       'content.marajoara.description': 'El arte marajoara es una expresión cultural de los antiguos habitantes de la Isla de Marajó, en Pará. Se caracteriza por su cerámica elaborada, con patrones geométricos y zoomorfos, que reflejan la complejidad social y la cosmovisión de estos pueblos.',
-      'content.tore.title': 'Toré de los Fulni-ô: Danza Sagrada',
-      'content.tore.description': 'El Toré es una danza ritualística presente en diversas etnias indígenas del Nordeste de Brasil. Para los Fulni-ô de Pernambuco, el Toré es una forma de conexión con los ancestros y la naturaleza, fundamental para el mantenimiento de su cultura y espiritualidad.',
+      'content.tore.title': 'Toré de los Fulni-ô: Dança Sagrada',
+      'content.tore.description': 'El Toré es una dança ritualística presente em diversas etnias indígenas do Nordeste de Brasil. Para os Fulni-ô de Pernambuco, el Toré é uma forma de conexión com os ancestrais e a natureza, fundamental para o mantenimiento de sua cultura e espiritualidade.',
       'content.mandioca.title': 'Mandioca: Raíz de la Vida Indígena',
-      'content.mandioca.description': 'La mandioca, también conocida como aipim o macaxeira, es un alimento básico para muchas etnias indígenas de Brasil. De ella se extrae la harina, el tucupi, la tapioca y otros productos esenciales para la cocina y la subsistencia.',
+      'content.mandioca.description': 'La mandioca, também conhecida como aipim ou macaxeira, é um alimento básico para muchas etnias indígenas de Brasil. De ella se extrae la harina, el tucupi, la tapioca y otros productos esenciales para la cocina y la subsistencia.',
       'content.trancado.title': 'Trenzado Yanomami: Arte del Bosque',
       'content.trancado.description': 'El trenzado es un arte milenario entre los Yanomami, pueblo que habita el bosque amazónico en la frontera entre Brasil y Venezuela. Cestas, cedazos y adornos son confeccionados con fibras naturales, revelando un profundo conocimiento de la flora local y una estética única.',
       'content.pintura.title': 'Pintura Corporal Kadiwéu: El Arte de Ser',
@@ -329,7 +346,22 @@ const resources = {
       'content.quarup.title': 'Ritual del Quarup: La Celebración de la Vida y la Muerte',
       'content.quarup.description': 'El Quarup es un ritual de homenaje a los muertos célebres, practicado por los pueblos del Alto Xingu, en Mato Grosso. Es una gran celebración que involucra danzas, cantos, luchas y el intercambio de presentes, reafirmando los lazos comunitarios y el ciclo de la vida.',
       'content.guarani.title': 'Lengua Guaraní: Herencia Viva',
-      'content.guarani.description': 'La lengua guaraní es hablada por millones de personas en América del Sur, siendo oficial en Paraguay. Para los Guaraní, la lengua es la expresión máxima de su cultura e identidad, transmitiendo conocimientos ancestrales y cosmovisiones.'
+      'content.guarani.description': 'La lengua guaraní es hablada por millones de personas en América del Sur, siendo oficial en Paraguay. Para los Guaraní, la lengua es la expresión máxima de su cultura e identidad, transmitiendo conocimientos ancestrales y cosmovisiones.',
+      'explore.sort.createdAt': 'Criado em',
+      'explore.sort.updatedAt': 'Atualizado em',
+      'explore.sort.most_recent': 'Más reciente',
+      'explore.sort.oldest': 'Más antiguo',
+      'explore.sort.recently_updated': 'Atualizados recientemente',
+      'explore.sort.least_updated': 'Menos actualizados',
+      'explore.date_filter.label': 'Rango de fechas',
+      'explore.date_filter.from': 'Desde',
+      'explore.date_filter.to': 'Hasta',
+      'explore.date_filter.by': 'Filtrar por',
+      'explore.loading': 'Cargando contenidos...',
+      'content.created_at': 'Creado en',
+      'content.updated_at': 'Actualizado en',
+      'content.back_to_explore': 'Volver a Explorar',
+      'content.not_found': 'Contenido no encontrado.',
     }
   }
 };
@@ -337,17 +369,19 @@ const resources = {
 i18n
   .use(Backend)
   .use(LanguageDetector)
-  .use(initReactI18next) // passes i18n down to react-i18next
+  .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: "en", // fallback language if translation not found
+    fallbackLng: 'pt',
+    lng: 'pt',
+    debug: true,
+    interpolation: {
+      escapeValue: false,
+    },
     detection: {
       order: ['localStorage', 'navigator'],
       caches: ['localStorage'],
     },
-    interpolation: {
-      escapeValue: false // react already escapes by default
-    }
   });
 
 export default i18n; 

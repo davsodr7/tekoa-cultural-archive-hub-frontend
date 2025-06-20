@@ -22,6 +22,10 @@ interface ExploreHeaderProps {
   selectedFilter: string;
   setSelectedFilter: (filter: string) => void;
   filters: FilterOption[];
+  sortField: 'createdAt';
+  setSortField: (field: 'createdAt') => void;
+  sortOrder: 'asc' | 'desc';
+  setSortOrder: (order: 'asc' | 'desc') => void;
 }
 
 export const ExploreHeader: React.FC<ExploreHeaderProps> = ({
@@ -29,7 +33,11 @@ export const ExploreHeader: React.FC<ExploreHeaderProps> = ({
   setSearchTerm,
   selectedFilter,
   setSelectedFilter,
-  filters
+  filters,
+  sortField,
+  setSortField,
+  sortOrder,
+  setSortOrder
 }) => {
   const { t } = useTranslation();
 
@@ -44,7 +52,7 @@ export const ExploreHeader: React.FC<ExploreHeaderProps> = ({
             Descubra histórias, tradições e sabedorias dos povos indígenas brasileiros
           </p>
 
-          {/* Search and Filters */}
+          {/* Search, Filters, Sort, Date Range */}
           <div className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -55,7 +63,6 @@ export const ExploreHeader: React.FC<ExploreHeaderProps> = ({
                 className="pl-10"
               />
             </div>
-            
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
@@ -72,6 +79,18 @@ export const ExploreHeader: React.FC<ExploreHeaderProps> = ({
                     {filter.label}
                   </DropdownMenuItem>
                 ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            {/* Ordenação */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="flex items-center gap-2">
+                  {t('explore.sort.publishedAt')} {sortOrder === 'asc' ? '↑' : '↓'}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => { setSortField('createdAt'); setSortOrder('desc'); }}>{t('explore.sort.most_recent')}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { setSortField('createdAt'); setSortOrder('asc'); }}>{t('explore.sort.oldest')}</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

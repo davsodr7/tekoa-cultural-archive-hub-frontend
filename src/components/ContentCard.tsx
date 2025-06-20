@@ -1,107 +1,132 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Content } from "@/lib/types";
+import { formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { Calendar, Heart, Users, MapPin, Tag } from "lucide-react";
+import ContentModal from './ContentModal';
+import { useLikes } from '@/hooks/useLikes';
 
-interface ContentCard {
-  id: string;
-  title: string;
-  description: string;
-  type: 'story' | 'craft' | 'music' | 'language' | 'ritual';
-  ethnicity: string;
-  region: string;
-  imageUrl: string;
-  creator?: string;
-  translationSlug?: string;
-}
+const ContentCard = (content: Content) => {
+  const { id, title, type, description, imageUrl, createdAt, likesCount: initialLikesCount = 0, ethnicity, region, category } = content;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isLiked, likesCount, toggleLike } = useLikes(id.toString(), initialLikesCount);
 
-export const ContentCard: React.FC<ContentCard> = ({
-  id,
-  title: propTitle,
-  description: propDescription,
-  type,
-  ethnicity,
-  region,
-  imageUrl,
-  creator,
-  translationSlug
-}) => {
-  const { t } = useTranslation();
+  const placeholderImage = '/placeholder.svg';
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const fullImageUrl = imageUrl ? `${backendUrl}${imageUrl}` : placeholderImage;
 
-  const translationKeyMap: Record<string, string> = {
-    story: 'stories',
-    craft: 'crafts',
-    music: 'music',
-    language: 'language',
-    ritual: 'rituals',
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = placeholderImage;
   };
 
-  const typeColors = {
-    story: 'bg-blue-100 text-blue-800 hover:bg-blue-200',
-    craft: 'bg-green-100 text-green-800 hover:bg-green-200',
-    music: 'bg-purple-100 text-purple-800 hover:bg-purple-200',
-    language: 'bg-orange-100 text-orange-800 hover:bg-orange-200',
-    ritual: 'bg-red-100 text-red-800 hover:bg-red-200'
+  const handleLike = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Previne que o clique no botão abra o modal
+    toggleLike();
   };
 
-<<<<<<< HEAD
-  const translatedTitle = t(`content.${translationSlug || id}.title`, { defaultValue: propTitle });
-  const translatedDescription = t(`content.${translationSlug || id}.description`, { defaultValue: propDescription });
-=======
-  const translatedTitle = t(`content.${id}.title`, { defaultValue: propTitle });
-  const translatedDescription = t(`content.${id}.description`, { defaultValue: propDescription });
->>>>>>> recupera-alteracoes
+  const formattedDate = createdAt
+    ? formatDistanceToNow(new Date(createdAt), { addSuffix: true, locale: ptBR })
+    : 'Data indisponível';
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
-      <div className="aspect-video relative overflow-hidden">
+    <>
+      <Card 
+        className="h-full flex flex-col rounded-xl overflow-hidden border bg-card cursor-pointer group"
+        onClick={() => setIsModalOpen(true)}
+      >
+        <CardHeader className="p-0 relative overflow-hidden">
         <img 
-<<<<<<< HEAD
-          src={`${import.meta.env.VITE_BACKEND_URL}/assets/${imageUrl}`} 
-=======
-          src={imageUrl.startsWith('/assets/')
-            ? `${import.meta.env.VITE_BACKEND_URL}${imageUrl}`
-            : `${import.meta.env.VITE_BACKEND_URL}/assets/${imageUrl}`}
->>>>>>> recupera-alteracoes
-          alt={translatedTitle}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-        />
-        <div className="absolute top-2 left-2">
-          <Badge className={typeColors[type]}>
-            {t(`explore.filter.${translationKeyMap[type] || type}`)}
+            src={fullImageUrl}
+            alt={`Imagem para ${title}`}
+            onError={handleImageError}
+            className="w-full h-48 object-cover"
+            loading="lazy"
+          />
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleLike}
+            className={`absolute top-2 right-2 bg-white/80 hover:bg-white/90 backdrop-blur-sm transition-all duration-200 ${
+              isLiked ? 'text-red-500' : 'text-gray-600'
+            }`}
+          >
+            <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
+          </Button>
+        </CardHeader>
+        <CardContent className="p-6 flex-1 flex flex-col">
+          <div className="flex items-center space-x-2 mb-3">
+              <Badge variant="secondary">
+                  {type}
           </Badge>
+          {category && (
+            <Badge 
+              variant="outline" 
+              style={{ backgroundColor: category.color + '20', borderColor: category.color }}
+            >
+              {category.name}
+            </Badge>
+          )}
         </div>
+          <CardTitle className="text-xl font-bold leading-tight mb-3">
+            {title}
+          </CardTitle>
+          <p className="text-muted-foreground text-sm flex-1">{description}</p>
+          
+          {/* Ethnicity and Region Information */}
+          <div className="mt-4 space-y-2">
+            {ethnicity && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Users className="h-3 w-3" />
+                <span className="font-medium">Etnia:</span>
+                <span>{ethnicity}</span>
+              </div>
+            )}
+            {region && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <MapPin className="h-3 w-3" />
+                <span className="font-medium">Região:</span>
+                <span>{region}</span>
+              </div>
+            )}
+          </div>
+        </CardContent>
+        <CardFooter className="p-6 pt-0 flex justify-between items-center text-xs text-muted-foreground">
+          <TooltipProvider>
+              <Tooltip>
+                  <TooltipTrigger asChild>
+                      <div className="flex items-center space-x-2 cursor-default">
+                          <Calendar size={14} />
+                          <span>{formattedDate}</span>
       </div>
-      
-      <CardContent className="p-4">
-        <h3 className="font-semibold text-lg mb-2 line-clamp-2">{translatedTitle}</h3>
-        <p className="text-muted-foreground text-sm mb-3 line-clamp-3">{translatedDescription}</p>
-        
-        <div className="flex flex-wrap gap-2 mb-2">
-          <Badge variant="outline" className="text-xs">
-            {t('content.ethnicity')}: {ethnicity}
-          </Badge>
-          <Badge variant="outline" className="text-xs">
-            {t('content.region')}: {region}
-          </Badge>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                      <p>Publicado em {createdAt ? new Date(createdAt).toLocaleDateString('pt-BR') : 'N/A'}</p>
+                  </TooltipContent>
+              </Tooltip>
+          </TooltipProvider>
+          {likesCount > 0 && (
+            <div className="flex items-center space-x-1 text-xs text-muted-foreground">
+              <Heart className="h-3 w-3" />
+              <span>{likesCount}</span>
         </div>
-        
-        {creator && (
-          <p className="text-xs text-muted-foreground">
-            {t('content.created_by')}: {creator}
-          </p>
-        )}
-      </CardContent>
-      
-      <CardFooter className="p-4 pt-0">
-        <Link 
-          to={`/content/${id}`}
-          className="text-sm font-medium text-primary hover:underline"
-        >
-          {t('content.learn_more')} →
-        </Link>
+          )}
       </CardFooter>
     </Card>
+      
+      <ContentModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        content={content}
+        isLiked={isLiked}
+        likesCount={likesCount}
+        toggleLike={toggleLike}
+      />
+    </>
   );
 };
+
+export default ContentCard;

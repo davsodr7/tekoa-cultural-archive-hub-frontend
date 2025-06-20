@@ -1,23 +1,21 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { ExploreHeader } from '@/components/ExploreHeader';
-import { ContentGrid } from '@/components/ContentGrid';
+import ContentGrid from '@/components/ContentGrid';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import { ContentItem } from '@/lib/types';
+import { Content } from '@/lib/types';
 
-<<<<<<< HEAD
-const API_URL = 'http://localhost:8080/api/conteudos';
-=======
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/conteudos`;
->>>>>>> recupera-alteracoes
 
 export const Explore: React.FC = () => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
-  const [allContent, setAllContent] = useState<ContentItem[]>([]);
+  const [allContent, setAllContent] = useState<Content[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sortField, setSortField] = useState<'createdAt'>('createdAt');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
   // Mapeamento dos títulos da API para os slugs de tradução
   const contentSlugMap: Record<string, string> = {
@@ -36,7 +34,9 @@ export const Explore: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get<ContentItem[]>(API_URL);
+        const response = await axios.get<Content[]>(API_URL);
+        console.log('Dados recebidos da API:', response.data);
+        
         // Adicionar o translationSlug a cada item de conteúdo
         const contentsWithSlugs = response.data.map(item => ({
           ...item,
@@ -83,15 +83,46 @@ export const Explore: React.FC = () => {
         
         return searchTargetTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
                searchTargetDescription.toLowerCase().includes(searchTerm.toLowerCase()) ||
-               item.ethnicity.toLowerCase().includes(searchTerm.toLowerCase());
+               (item.ethnicity && item.ethnicity.toLowerCase().includes(searchTerm.toLowerCase())) ||
+               (item.region && item.region.toLowerCase().includes(searchTerm.toLowerCase()));
       });
     }
 
+    // Sort
+    filtered = [...filtered].sort((a, b) => {
+      const aDate = a[sortField] ? new Date(a[sortField]!).getTime() : 0;
+      const bDate = b[sortField] ? new Date(b[sortField]!).getTime() : 0;
+      return sortOrder === 'asc' ? aDate - bDate : bDate - aDate;
+    });
+
     return filtered;
-  }, [searchTerm, selectedFilter, filters, allContent, t]); // Adicionar 't' às dependências do useMemo
+  }, [searchTerm, selectedFilter, filters, allContent, t, sortField, sortOrder]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center text-xl text-primary">Carregando conteúdos...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-xl text-primary">Carregando conteúdos culturais...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-xl text-red-600 mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90"
+          >
+            Tentar novamente
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -102,6 +133,10 @@ export const Explore: React.FC = () => {
         selectedFilter={selectedFilter}
         setSelectedFilter={setSelectedFilter}
         filters={filters}
+        sortField={sortField}
+        setSortField={setSortField}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
       />
 
       <ContentGrid

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
+import ContentCard from '@/components/ContentCard';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ContentCard } from '@/components/ContentCard';
-import { ContentItem } from '@/lib/types';
+import { Content } from '@/lib/types';
 
 interface FilterOption {
   key: string;
@@ -11,14 +11,14 @@ interface FilterOption {
 }
 
 interface ContentGridProps {
-  filteredContent: ContentItem[];
+  filteredContent: Content[];
   selectedFilter: string;
   setSelectedFilter: (filter: string) => void;
   setSearchTerm: (term: string) => void;
   filters: FilterOption[];
 }
 
-export const ContentGrid: React.FC<ContentGridProps> = ({
+const ContentGrid: React.FC<ContentGridProps> = ({
   filteredContent,
   selectedFilter,
   setSelectedFilter,
@@ -32,7 +32,7 @@ export const ContentGrid: React.FC<ContentGridProps> = ({
 
   return (
     <section className="py-12">
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="container mx-auto px-4 lg:px-8" aria-live="polite">
         {filteredContent.length > 0 ? (
           <>
             <div className="flex items-center justify-between mb-8">
@@ -50,9 +50,15 @@ export const ContentGrid: React.FC<ContentGridProps> = ({
               )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredContent.map((item) => (
-                <ContentCard key={item.id} {...item} />
+            <div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+              role="region"
+              aria-label="Grade de conteúdos culturais"
+            >
+              {filteredContent.map((item, idx) => (
+                <div key={item.id} className="animate-fade-in">
+                  <ContentCard {...item} />
+                </div>
               ))}
             </div>
           </>
@@ -70,3 +76,5 @@ export const ContentGrid: React.FC<ContentGridProps> = ({
     </section>
   );
 };
+
+export default ContentGrid;

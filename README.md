@@ -1,81 +1,183 @@
-# Tekoá Cultural Archive Hub
+# Tekoá Cultural Archive Hub - Frontend
 
-## Project info
+Frontend da aplicação Tekoá Cultural Archive Hub, desenvolvido em React com TypeScript e Vite.
 
-Este projeto é um hub para preservação e compartilhamento de culturas indígenas brasileiras.
+## 🎯 Sobre o Projeto
 
-## Como rodar o projeto localmente
+O Tekoá Cultural Archive Hub é uma plataforma digital dedicada à preservação e divulgação da cultura indígena brasileira. O projeto visa conectar pessoas com o rico patrimônio cultural dos povos indígenas através de uma interface moderna e acessível.
 
-1. Clone o repositório:
-   ```sh
-   git clone <URL_DO_REPOSITORIO>
-   ```
-2. Acesse a pasta do projeto:
-   ```sh
-   cd tekoa-cultural-archive-hub-frontend
-   ```
-3. Instale as dependências:
-   ```sh
-   npm install
-   # ou
-   yarn install
-   ```
-4. Inicie o servidor de desenvolvimento:
-   ```sh
-   npm run dev
-   # ou
-   yarn dev
-   ```
+### Público-Alvo
+- **Povos Indígenas** - Para preservar e compartilhar sua cultura
+- **Educadores** - Para usar em sala de aula
+- **Público Geral** - Para conhecer e valorizar a cultura indígena
 
-## Tecnologias utilizadas
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### ODS Alinhadas
+- **ODS 4 - Educação de Qualidade**: Promovendo educação inclusiva sobre cultura indígena
+- **ODS 10 - Redução das Desigualdades**: Valorizando e preservando culturas minoritárias
+- **ODS 16 - Paz, Justiça e Instituições Eficazes**: Promovendo sociedades inclusivas
 
-## Deploy
+## 🚀 Tecnologias Utilizadas
 
-<<<<<<< HEAD
-Para publicar o projeto, utilize a plataforma de sua preferência (Vercel, Netlify, etc) ou configure um servidor próprio.
-=======
-Simply open [Lovable](https://lovable.dev/projects/59582798-71cd-4aa5-b4f9-f8a31f1cb26e) and click on Share -> Publish.
+- **React 18** - Biblioteca JavaScript para interfaces
+- **TypeScript** - Tipagem estática para JavaScript
+- **Vite** - Build tool e dev server
+- **Tailwind CSS** - Framework CSS utilitário
+- **Shadcn/ui** - Componentes de UI
+- **React Router** - Roteamento
+- **React Hook Form** - Gerenciamento de formulários
+- **Zod** - Validação de esquemas
+- **Axios** - Cliente HTTP
+- **React i18next** - Internacionalização
+- **Lucide React** - Ícones
 
-## Can I connect a custom domain to my Lovable project?
+## 📋 Pré-requisitos
 
-Yes, you can!
+- Node.js 18+ 
+- npm ou yarn
+- Backend Spring Boot rodando na porta 8080
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🔧 Configuração
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### 1. Clone o repositório
+```bash
+git clone <url-do-repositorio>
+cd tekoa-cultural-archive-hub-frontend
+```
 
-## Variáveis de Ambiente (.env)
-
-Este projeto utiliza variáveis de ambiente para configurar a URL do backend e outros parâmetros sensíveis. Siga os passos abaixo para configurar:
-
-### 1. Instale as dependências (caso ainda não tenha feito)
+### 2. Instale as dependências
 ```bash
 npm install
 ```
 
-### 2. Crie o arquivo `.env` na raiz do projeto frontend
+### 3. Configure as variáveis de ambiente
+Crie um arquivo `.env.local` na raiz do projeto:
 ```env
 VITE_BACKEND_URL=http://localhost:8080
 ```
 
-- Altere o valor conforme a URL/porta do seu backend.
-
-### 3. Como usar no código
-No código React, acesse a variável assim:
-```js
-const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/api/conteudos`;
-```
-
-### 4. Reinicie o servidor do frontend
-Sempre que alterar o `.env`, reinicie o servidor Vite:
+### 4. Execute o projeto
 ```bash
 npm run dev
 ```
 
+O frontend estará disponível em `http://localhost:8000`
+
+## 🏗️ Estrutura do Projeto
+
+```
+src/
+├── components/          # Componentes reutilizáveis
+│   ├── ui/             # Componentes base (shadcn/ui)
+│   ├── Layout/         # Componentes de layout
+│   └── ...             # Outros componentes
+├── pages/              # Páginas da aplicação
+├── hooks/              # Hooks customizados
+├── lib/                # Utilitários e tipos
+├── data/               # Dados estáticos
+└── ...
+```
+
+## 📱 Funcionalidades
+
+### Páginas Principais
+- **Home** - Página inicial com apresentação do projeto
+- **Explorar** - Galeria de conteúdos culturais com filtros e busca
+- **Sobre** - Informações sobre o projeto e sua missão
+
+### Área Administrativa
+- **Listagem de Conteúdos** - Gerenciar todos os conteúdos
+- **Formulário de Conteúdo** - Criar e editar conteúdos
+- **Modal de Detalhes** - Visualizar conteúdo completo
+
+### Funcionalidades
+- ✅ Busca e filtros por tipo de conteúdo
+- ✅ Sistema de curtidas (localStorage)
+- ✅ Modal com detalhes completos
+- ✅ Interface responsiva
+- ✅ Internacionalização (PT-BR/EN)
+- ✅ CRUD completo de conteúdos
+- ✅ Integração com API REST
+
+## 🔌 Integração com Backend
+
+O frontend se conecta ao backend Spring Boot através da API REST:
+
+### Endpoints Utilizados
+- `GET /api/conteudos` - Listar todos os conteúdos
+- `GET /api/conteudos/{id}` - Buscar conteúdo por ID
+- `POST /api/conteudos` - Criar novo conteúdo
+- `PUT /api/conteudos/{id}` - Atualizar conteúdo
+- `DELETE /api/conteudos/{id}` - Excluir conteúdo
+
+### Configuração da API
+A URL do backend é configurada através da variável de ambiente `VITE_BACKEND_URL`.
+
+## 🎨 Design System
+
+O projeto utiliza o design system do Shadcn/ui com Tailwind CSS:
+
+### Cores
+- **Primary**: Tons de marrom/terracota
+- **Secondary**: Tons neutros
+- **Accent**: Destaques e elementos interativos
+
+### Componentes
+- Cards para exibição de conteúdo
+- Badges para categorização
+- Modais para detalhes
+- Formulários com validação
+- Tabelas para administração
+
+## 🌐 Internacionalização
+
+O projeto suporta múltiplos idiomas através do React i18next:
+
+- **Português (pt-BR)** - Idioma padrão
+- **Inglês (en)** - Disponível para expansão
+
+## 📊 Dados de Exemplo
+
+O backend inclui dados de exemplo com:
+- 5 categorias culturais
+- 8 conteúdos culturais
+- Imagens e descrições completas
+
+## 🚀 Deploy
+
+### Build para Produção
+```bash
+npm run build
+```
+
+### Hospedagem Recomendada
+- **Vercel** - Deploy automático do GitHub
+- **Netlify** - Deploy com preview
+- **GitHub Pages** - Hospedagem gratuita
+
+## 🤝 Contribuição
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
+## 👥 Autores
+
+- **Seu Nome** - Desenvolvimento inicial
+
+## 🙏 Agradecimentos
+
+- Comunidades indígenas brasileiras
+- Professores e orientadores
+- Comunidade open source
+
 ---
->>>>>>> recupera-alteracoes
+
+**Versão**: Intermediária  
+**Status**: ✅ Funcional e Integrado  
+**Última Atualização**: Junho 2024

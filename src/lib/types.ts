@@ -1,14 +1,27 @@
-export interface ContentItem {
-  id: string;
+export type Category = {
+  id: number;
+  name: string;
+  description?: string;
+  color?: string;
+  createdAt: string;
+  contents?: Content[];
+};
+
+export type Content = {
+  id: number;
   title: string;
+  type: string;
   description: string;
-  type: 'story' | 'craft' | 'music' | 'language' | 'ritual';
-  ethnicity: string;
-  region: string;
-  imageUrl: string;
+  imageUrl?: string;
   creator?: string;
+  ethnicity?: string;
+  region?: string;
+  category?: Category;
+  createdAt: string;
   translationSlug?: string;
-}
+  likesCount?: number;
+  isLikedByUser?: boolean;
+};
 
 export interface UserDTO {
   id: number;

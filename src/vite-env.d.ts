@@ -8,10 +8,6 @@ declare module '*.svg';
 
 interface ImportMetaEnv {
   readonly VITE_BACKEND_URL: string;
-<<<<<<< HEAD
-  // adicione outras variáveis de ambiente aqui se necessário
-=======
->>>>>>> recupera-alteracoes
 }
 
 interface ImportMeta {

@@ -1,46 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
-<<<<<<< HEAD
+import ImageWithFallback from '@/components/ImageWithFallback';
 
-=======
->>>>>>> recupera-alteracoes
 export const Home: React.FC = () => {
   const { t } = useTranslation();
-  const [features, setFeatures] = useState<any[]>([]);
-  const [erro, setErro] = useState(false);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-<<<<<<< HEAD
-  useEffect(() => {
-    fetch('http://localhost:8080/api/conteudos')
-      .then(res => {
-        if (!res.ok) throw new Error();
-        return res.json();
-      })
-      .then(data => setFeatures(data))
-      .catch(() => setErro(true));
-  }, []);
-=======
   const features = [
     {
       title: t('explore.filter.stories'),
       description: t('home.feature.stories'),
-      image: `${import.meta.env.VITE_BACKEND_URL}/assets/foto_fogueira_gr.jpg`
+      image: `${backendUrl}/assets/foto_fogueira_gr.jpg`
     },
     {
       title: t('explore.filter.crafts'),
       description: t('home.feature.crafts'),
-      image: `${import.meta.env.VITE_BACKEND_URL}/assets/artesanato-indígena-brasileiro.jpg`
+      image: `${backendUrl}/assets/artesanato-indígena-brasileiro.jpg`
     },
     {
       title: t('explore.filter.music'),
       description: t('home.feature.music'),
-      image: `${import.meta.env.VITE_BACKEND_URL}/assets/danca-ritual-indigena-Brasil.jpeg`
+      image: `${backendUrl}/assets/danca-ritual-indigena-Brasil.jpeg`
     }
   ];
->>>>>>> recupera-alteracoes
 
   return (
     <div className="min-h-screen">
@@ -84,33 +69,26 @@ export const Home: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {erro ? (
-              <div className="col-span-3 text-center text-red-500">Imagens indisponíveis no momento.</div>
-            ) : (
-              features.map((feature, index) => (
-                <Card key={index} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
-                  <div className="aspect-video relative overflow-hidden">
-                    {feature.imageUrl ? (
-                      <img
-                        src={`${import.meta.env.VITE_BACKEND_URL}/assets/${feature.imageUrl}`}
-                        alt={feature.title}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">Sem imagem</div>
-                    )}
-                  </div>
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-semibold mb-3 text-primary">
-                      {feature.title || 'Sem título'}
-                    </h3>
-                    <p className="text-muted-foreground">
-                      {feature.description || 'Sem descrição'}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))
-            )}
+            {features.map((feature, index) => (
+              <Card key={index} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
+                <div className="aspect-video relative overflow-hidden">
+                  <ImageWithFallback
+                    src={feature.image}
+                    fallbackSrc="/placeholder.svg"
+                    alt={feature.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-semibold mb-3 text-primary">
+                    {feature.title || 'Sem título'}
+                  </h3>
+                  <p className="text-muted-foreground">
+                    {feature.description || 'Sem descrição'}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -154,18 +132,17 @@ export const Home: React.FC = () => {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary">
-              Junte-se à Nossa Comunidade
+              Explore Nosso Acervo
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Faça parte da preservação e valorização das culturas indígenas brasileiras.
-              Compartilhe conhecimento e aprenda com outras pessoas.
+              Navegue por nosso arquivo de conteúdos culturais e descubra a riqueza das tradições indígenas.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild>
-                <Link to="/register">{t('nav.register')}</Link>
+                <Link to="/explore">{t('nav.explore')}</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link to="/explore">{t('nav.explore')}</Link>
+                <Link to="/about">{t('home.learn_more')}</Link>
               </Button>
             </div>
           </div>
